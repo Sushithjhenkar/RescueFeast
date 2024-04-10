@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}
+<title>Donor Dashboard</title>
+{% endblock %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Dashboard</title>
+</head>
+<body>
+
+{% block main %}
+    <h1>Welcome to Donor Dashboard</h1>
+    <p>Your food data has been successfully added!</p>
+
+    <!-- Link to Add More Food Data -->
+<div class="btn-field">
+    <a href="/donate"><button type="button">Add More Food Data</button></a>
+</div>
+
+
+    <!-- Link to Logout -->
+<!--    <a href="/logout">Logout</a>-->
+</body>
+
+{% endblock %}
+</html>

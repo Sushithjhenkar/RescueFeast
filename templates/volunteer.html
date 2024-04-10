@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+<html lang="en">
+<head>
+    {% block title %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Requests Dashboard</title>
+    {% endblock %}
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        width: 90%;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      th, td {
+        padding: 12px; /* Increased padding for spacing */
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+
+      .btn {
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        color: #fff;
+      }
+
+      .green {
+        background-color: #4CAF50;
+      }
+
+      .green:hover {
+        background-color: #45a049;
+      }
+    </style>
+</head>
+<body>
+{% block main %}
+<div class="container">
+    <h1 style="color: #a1a8ae">Welcome to Volunteer Requests Dashboard</h1>
+
+    <h2 style="color: #a1a8ae">Accepted Food Data</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="color: #a1a8ae">Food Name</th>
+                <th style="color: #a1a8ae">Food Quantity</th>
+                <th style="color: #a1a8ae">Food Address</th>
+                <th style="color: #a1a8ae">Food Type</th>
+                <th style="color: #a1a8ae">Food Expiry Date</th>
+                <th style="color: #a1a8ae">Pickup Instructions</th>
+                <th style="color: #a1a8ae">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for food_item in accepted_food_items %}
+            <tr>
+                <td>{{ food_item[1] }}</td>
+                <td>{{ food_item[2] }}</td>
+                <td>{{ food_item[3] }}</td>
+                <td>{{ food_item[4] }}</td>
+                <td>{{ food_item[7] }}</td>
+                <td>{{ food_item[6] }}</td>
+                <td>
+                    <button onclick="showNavigation('{{ food_item[3] }}')" class="btn green">Navigate</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2 style="color: #a1a8ae">Rejected Food Data</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="color: #a1a8ae">Food Name</th>
+                <th style="color: #a1a8ae">Food Quantity</th>
+                <th style="color: #a1a8ae">Food Address</th>
+                <th style="color: #a1a8ae">Food Type</th>
+                <th style="color: #a1a8ae">Food Expiry Date</th>
+                <th style="color: #a1a8ae">Pickup Instructions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for food_item in rejected_food_items %}
+            <tr>
+                <td>{{ food_item[1] }}</td>
+                <td>{{ food_item[2] }}</td>
+                <td>{{ food_item[3] }}</td>
+                <td>{{ food_item[4] }}</td>
+                <td>{{ food_item[7] }}</td>
+                <td>{{ food_item[6] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<script>
+    // Function to show navigation
+    function showNavigation(foodAddress) {
+        // Get user's current location using Geolocation API
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var currentLocation = position.coords.latitude + ',' + position.coords.longitude;
+
+                // Redirect to navigation URL with current location and food address
+                var navigationURL = `https://www.google.com/maps/dir/${currentLocation}/${encodeURIComponent(foodAddress)}`;
+                window.open(navigationURL, '_blank');
+            }, function(error) {
+                // Handle error
+                console.error('Error getting current location:', error);
+                alert('Error getting current location. Redirecting to navigation without user location.');
+                // Redirect to navigation URL with only food address (without user's location)
+                var navigationURL = `https://www.google.com/maps/dir/${encodeURIComponent(foodAddress)}`;
+                window.open(navigationURL, '_blank');
+            });
+        } else {
+            // Geolocation not supported, redirect to navigation URL with only food address (without user's location)
+            var navigationURL = `https://www.google.com/maps/dir/${encodeURIComponent(foodAddress)}`;
+            window.open(navigationURL, '_blank');
+        }
+    }
+</script>
+<!--    <a href="/logout" class="btn green">Logout</a>-->
+</div>
+</body>
+{% endblock %}

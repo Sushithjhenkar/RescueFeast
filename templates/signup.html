@@ -1,0 +1,58 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Sign Up</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Sign Up</h1>-->
+<!--    <form action="/signup" method="post">-->
+<!--        <label for="username">Username:</label>-->
+<!--        <input type="text" id="username" name="username" required><br><br>-->
+<!--        <label for="password">Password:</label>-->
+<!--        <input type="password" id="password" name="password" required><br><br>-->
+<!--        <label for="role">Role:</label>-->
+<!--        <select id="role" name="role" required>-->
+<!--            <option value="donor">Donor</option>-->
+<!--            <option value="volunteer">Volunteer</option>-->
+<!--        </select><br><br>-->
+<!--        <input type="submit" value="Sign Up">-->
+<!--    </form>-->
+<!--</body>-->
+<!--</html>-->
+{% extends "base.html" %}
+
+{% block title %}
+<title>Sign up</title>
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block main %}
+<body>
+<div class="container">
+<main class="loginLayout">
+<div class="form">
+    <div class="form__signup">
+      <span>Please signup</span>
+      <form action="/signup" method="post">
+        <input class="textbox" type="text" name="username" placeholder="Enter new username" required />
+        <input class="textbox" type="email" name="email" placeholder="Enter Email ID" required />
+        <input class="textbox" type="password" name="password" placeholder="Enter  Password" required />
+        <select class="textbox" name="role" required>
+          <option value="donor">Donor</option>
+          <option value="volunteer">Volunteer</option>
+        </select><br><br>
+          <div class="chin">
+          <p></p>
+          <input class="btn green" type="submit" value="signup" />
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+</div>>
+</body>
+{% endblock %}

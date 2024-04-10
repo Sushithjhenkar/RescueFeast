@@ -1,0 +1,90 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link
+        href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
+        rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+    <link
+        rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
+        type="text/css"
+    />
+    <style>
+        #map {
+            height: 70%;
+            width: 68%;
+            margin: 30px;
+
+        .Data_and_map {
+            display: grid;
+            grid-template-columns: auto auto;
+            grid-gap: 10px;
+        }
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: lightblue;
+        }
+}
+    </style>
+</head>
+{% extends "base.html" %}
+{% block main %}
+<body class="content">
+    <h1 style="color: #a1a8ae">Welcome to Your Donor Dashboard</h1>
+    <div class="data_and_map">
+    <div class="map_data">
+    <h2 style="color: #a1a8ae">Add Food Data</h2>
+    <form action="/donor" method="post" enctype="multipart/form-data">
+        <label style="color: #a1a8ae" for="food_name">Food Name:</label>
+        <input class="textbox" type="text" id="food_name" name="food_name" required><br><br>
+        <label style="color: #a1a8ae" for="food_quantity">Food Quantity:</label>
+        <input class="textbox" type="number" id="food_quantity" name="food_quantity" required><br><br>
+        <!-- Replace textarea with a container for the map -->
+        <label style="color: #a1a8ae"  for="food_address">Food Address:</label>
+        <!-- Add input field for the food address -->
+        <input class="textbox" placeholder="Enter in the map beside" type="text" id="food_address" name="food_address" required><br><br>
+        <label style="color: #a1a8ae" for="food_type">Food Type:</label>
+        <input class="textbox" type="text" id="food_type" name="food_type" required><br><br>
+        <label style="color: #a1a8ae" for="food_expiry_date">Food Expiry Date:</label>
+        <input class="textbox" type="date" id="food_expiry_date" name="food_expiry_date" required><br><br>
+        <label style="color: #a1a8ae" for="pickup_instructions">Pickup Instructions</label>
+        <textarea class="textbox" id="pickup_instructions" name="pickup_instructions" required></textarea>
+        <input class="btn green" type="submit" value="Add Food">
+    </form>
+    <a href="/logout">Logout</a>
+    </div>
+    <div id="map"></div><br><br></div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1Ijoic3VzaGl0aCIsImEiOiJjbHRtanA1ZXkxbTQ5MmlwOW53bWRseTNxIn0.VGM4cB8KrvuyBrE2s_y75w';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [0, 0],
+            zoom: 2
+        });
+
+        var geocoder = new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl
+        });
+
+        // Add geocoding control to the map
+        document.getElementById('map').appendChild(geocoder.onAdd(map));
+
+        // Listen for 'result' event which is emitted when a result is selected
+        geocoder.on('result', function (e) {
+            // Set the selected address to the food address input field
+            document.getElementById('food_address').value = e.result.place_name;
+        });
+    </script>
+</body>
+{% endblock %}
+</html>

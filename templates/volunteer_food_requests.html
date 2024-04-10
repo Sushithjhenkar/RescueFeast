@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+<html lang="en">
+<head>
+    {% block title %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Dashboard</title>
+    <style>
+        /* Add space between cells */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px; /* Adjust the padding as needed */
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+
+        /* Style for buttons */
+        .btn {
+            display: inline-block;
+            padding: 8px 12px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .green {
+            background-color: #4CAF50;
+        }
+
+        .blue {
+            background-color: #008CBA;
+        }
+    </style>
+    {% endblock %}
+</head>
+<body>
+{% block main %}
+    <h1 style="color: #a1a8ae">Welcome to Your Volunteer Dashboard</h1>
+
+    <h2 style="color: #a1a8ae">Available Food Requests</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="color: #a1a8ae">Food Name</th>
+                <th  style="color: #a1a8ae">Food Quantity</th>
+                <th style="color: #a1a8ae">Food Address</th>
+                <th style="color: #a1a8ae">Food Type</th>
+                <th style="color: #a1a8ae">Food Expiry Date</th>
+                <th style="color: #a1a8ae">Pickup Instructions</th>
+                <th  style="color: #a1a8ae">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for food_item in food_items %}
+            <tr>
+                <td style="color: #a1a8ae">{{ food_item[1] }}</td>
+                <td style="color: #a1a8ae">{{ food_item[2] }}</td>
+                <td style="color: #a1a8ae">{{ food_item[3] }}</td>
+                <td style="color: #a1a8ae">{{ food_item[4] }}</td>
+                <td style="color: #a1a8ae">{{ food_item[7] }}</td>
+                <td style="color: #a1a8ae">{{ food_item[6] }}</td>
+                <td style="color: #a1a8ae">
+                    <a href="/accept/{{ food_item[0] }}" class="btn green">Accept</a>
+                    <a href="/reject/{{ food_item[0] }}" class="btn blue">Reject</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<!--    <a href="/logout">Logout</a>-->
+</body>
+{% endblock %}
+</html>

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+<html lang="en">
+<head>
+    {% block title %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title style="color: #a1a8ae">Donor Requests</title>
+    <style>
+        /* Add space between cells */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px; /* Adjust the padding as needed */
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+
+        /* Style for buttons */
+        .btn {
+            display: inline-block;
+            padding: 8px 12px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .green {
+            background-color: #4CAF50;
+        }
+
+        .blue {
+            background-color: #008CBA;
+        }
+    </style>
+    {% endblock %}
+</head>
+<body>
+{% block main %}
+    <h1 style="color: #a1a8ae; margin-left: '10px'">Welcome to Your Requests Dashboard</h1>
+
+    <h2 style="color: #a1a8ae">Food Requests Status</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="color: #a1a8ae">Food Name</th>
+                <th style="color: #a1a8ae">Food Quantity</th>
+                <th style="color: #a1a8ae">Food Address</th>
+                <th style="color: #a1a8ae">Food Type</th>
+                <th style="color: #a1a8ae">Request Status</th>
+                <th style="color: #a1a8ae">Pickup Instructions</th>
+                <th style="color: #a1a8ae">Expiry Date</th>
+                <th style="color: #a1a8ae">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for food_item in get_all_food_items %}
+            <tr id="row-{{ food_item[0] }}">
+                <td style="color: #a1a8ae">{{ food_item[1] }}</td>
+                <td style="color: #a1a8ae">{{ food_item[2] }}</td>
+                <td style="color: #a1a8ae">{{ food_item[3] }}</td>
+                <td style="color: #a1a8ae">{{ food_item[4] }}</td>
+                <td style="color: #a1a8ae">{{ food_item[5] }}</td>
+                <td style="color: #a1a8ae">{{ food_item[6] }}</td>
+                <td style="color: #a1a8ae">{{ food_item[7] }}</td>
+                <td>
+                    <button class="btn green delete-btn" data-id="{{ food_item[0] }}">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+<!-- Add jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Function to handle deletion of food item
+        $(".delete-btn").click(function() {
+            var itemId = $(this).data("id");
+
+            // Send AJAX request to delete item
+            $.ajax({
+                url: '/delete/' + itemId,
+                type: 'DELETE',
+                success: function(response) {
+                    // Remove the row from the table
+                    $("#row-" + itemId).remove();
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+{% endblock %}
+</html>

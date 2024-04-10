@@ -1,0 +1,65 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Your Profile</title>
+</head>
+<body>
+ <!-- Main Page Contents  -->
+    <main class="dashboardLayout">
+      <div class="dashboardLayout__info">
+        <h2>Root</h2>
+        <p>Administrator</p>
+        <p>20 June 2021, 23:11:04</p>
+      </div>
+
+      <div class="dashboardLayout__actions">
+        <div>
+          <h3>Update Password</h3>
+
+          <form id="updatePasswordForm">
+            <input type="password" name="oldpassword" id="oldpassword" class="textbox" placeholder="Enter old password"><br>
+            <input type="password" name="nwpassword" id="nwpassword" class="textbox" placeholder="Enter new password"><br>
+            <input type="password" name="repassword" id="repassword" class="textbox" placeholder="Re-enter new password">
+            <input class="btn blue" type="submit" value="Update">
+          </form>
+
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // JavaScript code for handling form submission with AJAX
+      document.getElementById('updatePasswordForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        // Collect form data
+        var formData = {
+          oldpassword: document.getElementById('oldpassword').value,
+          nwpassword: document.getElementById('nwpassword').value,
+          repassword: document.getElementById('repassword').value
+        };
+
+        // Send form data to Flask route for updating password
+        fetch('/updatepassword', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Handle the response from Flask route
+          if (data.status) {
+            alert(data.message); // Password updated successfully
+          } else {
+            alert(data.message); // Error message
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      });
+    </script>
+
+</body>
+</html>
